@@ -21,7 +21,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Executar Testes Unitários
-        run: mvn test -Dspring.profiles.active=test
+        run: mvn test
 
       - name: Empacotar com Maven
         run: mvn package -DskipTests
