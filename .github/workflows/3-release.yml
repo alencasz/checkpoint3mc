@@ -11,8 +11,26 @@ jobs:
     steps:
       - name: Checkout código
         uses: actions/checkout@v4
-
-      - name: Gerar Tag e Release
-        uses: softprops/action-gh-release@v1
         with:
+          fetch-depth: '0' 
+
+      - name: Configurar GIT
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "actions@github.com"
+
+      - name: Gerar nova Tag (vX.X.X)
+        id: tag_version
+        uses: mathieudutour/github-tag-action@v6.2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          default_branch: main
+          tag_prefix: v
+
+      - name: Criar Release no GitHub
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/v')
+        with:
+          name: Release ${{ steps.tag_version.outputs.new_tag }}
+          tag_name: ${{ steps.tag_version.outputs.new_tag }}
           generate_release_notes: true
