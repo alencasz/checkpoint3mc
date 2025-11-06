@@ -1,7 +1,5 @@
 name: 4. (CP3) CD - Testes de Integração (CRUD)
 
-#correcao?#
-
 on:
   push:
     branches:
@@ -21,15 +19,10 @@ jobs:
         image: postgres:14-alpine
         ports:
           - 5432:5432
-        environment:
+        env: # <--- MUDANÇA CRÍTICA: 'environment' foi trocado por 'env'
           POSTGRES_DB: taskdb_it
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: admin
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
 
     steps:
       - name: Checkout código
